@@ -7,9 +7,11 @@ local defaults = {
   mappings = {
     i = {
       ["<C-e>"] = require("telescope-hierarchy.actions").special_close,
+      ["<C-y>"] = require("telescope-hierarchy.actions").add_stuff,
     },
     n = {
       ["e"] = require("telescope-hierarchy.actions").special_close,
+      ["y"] = require("telescope-hierarchy.actions").add_stuff,
     },
   },
 }
