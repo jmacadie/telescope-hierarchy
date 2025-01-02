@@ -1,11 +1,10 @@
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local themes = require("telescope.themes")
--- local conf = require("telescope.config").values
 local tree = require("telescope-hierarchy.tree")
 
 ---Convert the list of Nodes into a format Telescope can consume
----@param entry NodeList
+---@param entry NodeLevel
 ---@return {value: Node, display: string, ordinal: string}
 local entry_maker = function(entry)
   local display = entry.level .. entry.node.text
@@ -42,8 +41,8 @@ end
 local M = {}
 
 M.show = function(opts)
-  tree.new(function(t)
-    local list = tree.to_list(t)
+  tree.new(function(root)
+    local list = root:to_list()
     local themed_opts = themes.get_dropdown(opts)
     show_hierarchy(list, themes.get_dropdown(themed_opts))
   end)
