@@ -7,7 +7,16 @@ local tree = require("telescope-hierarchy.tree")
 ---@param entry NodeLevel
 ---@return {value: Node, display: string, ordinal: string}
 local entry_maker = function(entry)
-  local display = entry.level .. entry.node.text
+  local prefix = ""
+  if entry.level > 1 then
+    prefix = string.rep("┆ ", entry.level - 2)
+    if entry.last then
+      prefix = prefix .. "└╴"
+    else
+      prefix = prefix .. "├╴"
+    end
+  end
+  local display = prefix .. entry.node.text
   return {
     value = entry,
     display = display,

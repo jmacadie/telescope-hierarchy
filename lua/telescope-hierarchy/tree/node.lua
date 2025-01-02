@@ -120,7 +120,7 @@ function Node:toggle(callback)
   end
 end
 
----@alias NodeLevel {node: Node, level: integer}
+---@alias NodeLevel {node: Node, level: integer, last: boolean}
 ---@alias NodeList NodeLevel[]
 
 ---Add a node to the list reprsentation of the tree
@@ -129,15 +129,17 @@ end
 ---@param list NodeList
 ---@param node Node
 ---@param level integer
-local function add_node_to_list(list, node, level)
+local function add_node_to_list(list, node, level, last)
   local entry = {
     node = node,
     level = level,
+    last = last,
   }
   table.insert(list, entry)
   if node.expanded and #node.children > 0 then
-    for _, child in ipairs(node.children) do
-      add_node_to_list(list, child, level + 1)
+    for idx, child in ipairs(node.children) do
+      local last_child = idx == #node.children
+      add_node_to_list(list, child, level + 1, last_child)
     end
   end
 end
@@ -149,7 +151,7 @@ end
 function Node:to_list()
   ---@type NodeList
   local results = {}
-  add_node_to_list(results, self, 1)
+  add_node_to_list(results, self, 1, false)
   return results
 end
 
