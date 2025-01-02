@@ -52,7 +52,7 @@ function Node:add_children(calls)
         textDocument = {
           uri = inner.uri,
         },
-        position = inner.range.start,
+        position = inner.selectionRange.start,
       }
       local child = Node.new(inner.uri, inner.name, range.start.line + 1, range.start.character + 1, loc, self.lsp)
       child.root = self.root -- maintain a common root node
