@@ -1,13 +1,14 @@
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
-local themes = require("telescope.themes")
 local conf = require("telescope.config").values
+
+local theme = require("telescope-hierarchy.theme")
 
 local M = {}
 
 ---Convert the list of Nodes into a format Telescope can consume
 ---@param entry NodeLevel
----@return {value: Node, display: string, ordinal: string}
+---@return {value: Node, display: string, ordinal: string, filename: string, lnum: integer, col: integer}
 local function entry_maker(entry)
   local prefix = ""
   if entry.level > 1 then
@@ -26,13 +27,12 @@ local function entry_maker(entry)
     filename = entry.node.filename,
     lnum = entry.node.lnum,
     col = entry.node.col,
-    bufnr = entry.node.lsp.bufnr,
   }
 end
 
 -- our picker function: colors
 M.show_hierarchy = function(results, opts)
-  opts = themes.get_dropdown(opts or {})
+  opts = theme.apply(opts or {})
   opts.initial_mode = "normal"
 
   pickers
