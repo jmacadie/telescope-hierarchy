@@ -1,6 +1,7 @@
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local themes = require("telescope.themes")
+local conf = require("telescope.config").values
 
 local M = {}
 
@@ -22,12 +23,17 @@ local function entry_maker(entry)
     value = entry,
     display = display,
     ordinal = display,
+    filename = entry.node.filename,
+    lnum = entry.node.lnum,
+    col = entry.node.col,
+    bufnr = entry.node.lsp.bufnr,
   }
 end
 
 -- our picker function: colors
 M.show_hierarchy = function(results, opts)
   opts = themes.get_dropdown(opts or {})
+  opts.initial_mode = "normal"
 
   pickers
     .new(opts, {
@@ -38,6 +44,7 @@ M.show_hierarchy = function(results, opts)
       }),
       -- No need for a sorter as the tree-view shouldn't be filtered
       -- sorter = conf.generic_sorter(opts),
+      previewer = conf.qflist_previewer(opts),
       attach_mappings = function(prompt_bufnr, map)
         for _, mode in pairs({ "i", "n" }) do
           for key, get_action in pairs(opts.mappings[mode] or {}) do
