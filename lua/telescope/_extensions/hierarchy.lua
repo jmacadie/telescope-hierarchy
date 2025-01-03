@@ -3,13 +3,23 @@ if not has_telescope then
   error("telescope-hierarchy.nvim requires telescope.nvim - https://github.com/nvim-telescope/telescope.nvim")
 end
 
+local actions = require("telescope-hierarchy.actions")
+
 local defaults = {
   mappings = {
-    i = {
-      ["<C-e>"] = require("telescope-hierarchy.actions").expand,
-    },
+    i = {},
     n = {
-      ["e"] = require("telescope-hierarchy.actions").expand,
+      ["e"] = actions.expand,
+      ["l"] = actions.expand,
+      ["<RIGHT>"] = actions.expand,
+
+      ["c"] = actions.collapse,
+      ["h"] = actions.collapse,
+      ["<LEFT>"] = actions.collapse,
+
+      ["t"] = actions.toggle,
+
+      ["q"] = actions.quit,
     },
   },
 }

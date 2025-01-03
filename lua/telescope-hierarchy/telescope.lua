@@ -30,7 +30,6 @@ local function entry_maker(entry)
   }
 end
 
--- our picker function: colors
 M.show_hierarchy = function(results, opts)
   opts = theme.apply(opts or {})
   opts.initial_mode = "normal"
@@ -47,8 +46,8 @@ M.show_hierarchy = function(results, opts)
       previewer = conf.qflist_previewer(opts),
       attach_mappings = function(prompt_bufnr, map)
         for _, mode in pairs({ "i", "n" }) do
-          for key, get_action in pairs(opts.mappings[mode] or {}) do
-            map(mode, key, get_action(prompt_bufnr))
+          for key, action in pairs(opts.mappings[mode] or {}) do
+            map(mode, key, action(prompt_bufnr))
           end
         end
         return true -- include defaults as well
